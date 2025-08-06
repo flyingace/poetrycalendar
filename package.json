@@ -6,9 +6,14 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "jest --watch",
+    "test:ci": "jest"
   },
   "dependencies": {
+    "@phosphor-icons/react": "^2.1.10",
+    "@prisma/client": "6.12.0",
+    "luxon": "^3.7.1",
     "next": "15.4.2",
     "react": "19.1.0",
     "react-dom": "19.1.0"
@@ -17,6 +22,8 @@
     "@eslint/eslintrc": "^3",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/react": "^16.3.0",
+    "@trivago/prettier-plugin-sort-imports": "^4.3.0",
+    "@types/luxon": "^3.6.2",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
@@ -29,6 +36,26 @@
     "testing-library": "^0.0.2",
     "tsx": "^4.20.3",
     "typescript": "^5"
+  },
+  "prettier": {
+    "bracketSpacing": true,
+    "importOrder": [
+      "^react$",
+      "^react",
+      "<THIRD_PARTY_MODULES>",
+      "^components/",
+      "^lib/",
+      "^redux/",
+      "^assets/",
+      "^domains/",
+      "^[.]{2}(?!.*?styles).*$",
+      "^[.](?!.*?styles).*$",
+      ".+(.styles)$"
+    ],
+    "printWidth": 80,
+    "semi": true,
+    "singleQuote": true,
+    "trailingComma": "es5"
   },
   "packageManager": "pnpm@10.12.4+sha512.5ea8b0deed94ed68691c9bad4c955492705c5eeb8a87ef86bc62c74a26b037b08ff9570f108b2e4dbd1dd1a9186fea925e527f141c648e85af45631074680184"
 }

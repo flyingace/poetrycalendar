@@ -1,0 +1,21 @@
+@use "../../styles/breakpoints";
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.siteName {
+  font-family: var(--lexend), serif;
+  font-size: 48px;
+  font-weight: 900;
+  //text-transform: uppercase;
+}
+
+.city {
+  color: #7d7d7d;
+}
