@@ -1,6 +1,6 @@
 import { getEvents, getEventsByDateRange } from './events';
 
-describe('Events API', () => {
+describe('EventListings API', () => {
   describe('getEvents', () => {
     it('should be a function', () => {
       expect(typeof getEvents).toBe('function');
