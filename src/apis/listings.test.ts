@@ -1,13 +1,13 @@
-import { getEvents, getEventsByDateRange } from './events';
+import { getListings, getListingsByDateRange } from './listings';
 
-describe('EventListings API', () => {
-  describe('getEvents', () => {
+describe('Listings API', () => {
+  describe('getListings', () => {
     it('should be a function', () => {
-      expect(typeof getEvents).toBe('function');
+      expect(typeof getListings).toBe('function');
     });
 
     it('should return a promise', () => {
-      const result = getEvents();
+      const result = getListings();
       expect(result).toBeInstanceOf(Promise);
       // Clean up the promise to avoid hanging tests
       result.catch(() => {
@@ -16,13 +16,13 @@ describe('EventListings API', () => {
     });
   });
 
-  describe('getEventsByDateRange', () => {
+  describe('getListingsByDateRange', () => {
     it('should be a function', () => {
-      expect(typeof getEventsByDateRange).toBe('function');
+      expect(typeof getListingsByDateRange).toBe('function');
     });
 
     it('should return a promise when called with date strings', () => {
-      const result = getEventsByDateRange('2024-01-01', '2024-12-31');
+      const result = getListingsByDateRange('2024-01-01', '2024-12-31');
       expect(result).toBeInstanceOf(Promise);
       // Clean up the promise to avoid hanging tests
       result.catch(() => {
