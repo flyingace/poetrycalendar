@@ -1,8 +1,6 @@
-import { PrismaClient } from '@prisma/client';
+'use server';
 
-const prisma = new PrismaClient();
-
-export default prisma;
+import prisma from './events';
 
 export async function getAllVenues() {
   return await prisma.venues.findMany({
@@ -37,6 +35,26 @@ export async function getVenueNameById(id: number) {
     where: { id },
     select: {
       name: true,
+    },
+  });
+}
+
+export async function createVenue(venueData: {
+  name: string;
+  street_address1: string;
+  street_address2?: string;
+  city: string;
+  state: string;
+  postal_code: string;
+}) {
+  await prisma.venues.create({
+    data: {
+      name: venueData.name,
+      street_address1: venueData.street_address1,
+      street_address2: venueData.street_address2 || null,
+      city: venueData.city,
+      state: venueData.state,
+      postal_code: venueData.postal_code,
     },
   });
 }

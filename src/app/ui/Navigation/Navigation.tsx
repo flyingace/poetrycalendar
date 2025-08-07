@@ -3,12 +3,13 @@
 import { MouseEvent } from 'react';
 import styles from './Navigation.module.scss';
 import {
-  CalendarDots,
-  PlusSquare,
-  Storefront,
-  Sun,
-  UserCircle,
+  CalendarDotsIcon,
+  PlusSquareIcon,
+  StorefrontIcon,
+  SunIcon,
+  UserCircleIcon,
 } from '@phosphor-icons/react';
+import Link from 'next/link';
 
 export default function Navigation() {
   function handleClick(evt: MouseEvent<HTMLButtonElement>) {
@@ -19,28 +20,28 @@ export default function Navigation() {
     <nav>
       <ul className={styles.navItems}>
         <li>
-          <button id="events" onClick={handleClick}>
-            <CalendarDots size={24} weight="light" /> Events
-          </button>
+          <Link className={styles.navItem} id="events" href="/eventListings">
+            <CalendarDotsIcon size={24} weight="light" /> Events
+          </Link>
         </li>
         <li>
-          <button id="create" onClick={handleClick}>
-            <PlusSquare size={24} weight="light" /> Create
-          </button>
+          <Link className={styles.navItem} id="create" href="/create">
+            <PlusSquareIcon size={24} weight="light" /> Create
+          </Link>
         </li>
         <li>
-          <button id="venues" onClick={handleClick}>
-            <Storefront size={24} weight="light" /> Venues
-          </button>
+          <Link className={styles.navItem} id="venues" href="/venues">
+            <StorefrontIcon size={24} weight="light" /> Venues
+          </Link>
         </li>
         <li>
-          <button id="account" onClick={handleClick}>
-            <UserCircle size={24} weight="light" /> Account
-          </button>
+          <Link className={styles.navItem} id="account" href="/account">
+            <UserCircleIcon size={24} weight="light" /> Account
+          </Link>
         </li>
         <li>
           <button id="mode" onClick={handleClick}>
-            <Sun size={24} weight="light" />
+            <SunIcon size={24} weight="light" />
             {/*<Moon size={24} weight="light" />*/}
           </button>
         </li>

@@ -2,10 +2,7 @@
 
 import styles from './eventListings.module.scss';
 import { DateTime } from 'luxon';
-import {
-  EventListingData,
-  getAdmission,
-} from '@/app/(content)/eventListings/page';
+import { EventListingData } from '@/app/(content)/eventListings/page';
 
 export function EventListing({
   id,
@@ -31,4 +28,28 @@ export function EventListing({
       <span className={styles.admission}>{admission}</span>
     </li>
   );
+}
+
+export function getAdmission(cost: string) {
+  if (cost === 'free' || cost === 'Free' || cost === '0') {
+    return 'Free';
+  }
+  if (isNaN(parseFloat(cost))) {
+    return cost;
+  }
+  return toCurrency(cost);
+}
+
+export function toCurrency(cost: string, currency: string = 'USD') {
+  const endsWithTwoDecimalPlaces = /\.\d{2}$/;
+
+  if (!endsWithTwoDecimalPlaces.test(cost)) {
+    cost += '.00';
+  }
+
+  if (currency === 'USD') {
+    return `$${cost}`;
+  }
+
+  return cost;
 }

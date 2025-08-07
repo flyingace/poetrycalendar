@@ -21,7 +21,7 @@ export async function getEvents() {
   });
 
   // Get venue names for each event
-  const eventsWithVenueNames = await Promise.all(
+  return await Promise.all(
     events.map(async (event) => {
       const venue = await getVenueNameById(event.venue);
 
@@ -31,8 +31,6 @@ export async function getEvents() {
       };
     })
   );
-
-  return eventsWithVenueNames;
 }
 
 export async function getEventsByDateRange(startDate: string, endDate: string) {
@@ -75,6 +73,23 @@ export async function getEventsByDateRange(startDate: string, endDate: string) {
   );
 
   return sortEventsByDate(eventsWithVenueNames);
+}
+
+export async function getDailyCalendar() {
+  const today = DateTime.now();
+  const startTime = today.minus({ days: 2 });
+  const endTime = today.plus({ days: 14 });
+
+  return await getEventsByDateRange(startTime.toISO(), endTime.toISO())
+    .then(async (resp) => {
+      await prisma.$disconnect();
+      return JSON.parse(JSON.stringify(resp));
+    })
+    .catch(async (e) => {
+      console.error(e);
+      await prisma.$disconnect();
+      process.exit(1);
+    });
 }
 
 function sortEventsByDate(eventListings: EventListingData[]) {
