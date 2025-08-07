@@ -1,29 +1,23 @@
 'use client';
 
-import styles from './eventListings.module.scss';
+import styles from './Listings.module.scss';
 import { DateTime } from 'luxon';
-import { EventListingData } from '@/app/(content)/eventListings/page';
+import { ListingData } from '@/app/(content)/listings/page';
 
-export function EventListing({
-  id,
-  title,
-  start_time,
-  venue,
-  cost,
-}: EventListingData) {
+export function Listing({ id, title, start_time, venue, cost }: ListingData) {
   const newStartTime = new Date(start_time);
-  const eventStartTime = DateTime.fromJSDate(newStartTime).toLocaleString(
+  const listingStartTime = DateTime.fromJSDate(newStartTime).toLocaleString(
     DateTime.TIME_SIMPLE
   );
   const admission = getAdmission(cost);
   return (
     <li
-      className={styles.eventListing}
+      className={styles.listing}
       role="button"
-      onClick={() => console.log(`Event ${id} clicked.`)}
+      onClick={() => console.log(`Listing ${id} clicked.`)}
     >
       <span className={styles.title}>{title}</span>{' '}
-      <span className={styles.startTime}>{eventStartTime}</span>{' '}
+      <span className={styles.startTime}>{listingStartTime}</span>{' '}
       <span className={styles.venueName}>{venue}</span>{' '}
       <span className={styles.admission}>{admission}</span>
     </li>

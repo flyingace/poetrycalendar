@@ -1,7 +1,7 @@
 @use '../../styles/breakpoints';
 
-.eventListingsPage {
-  .dailyEvent {
+.listingsPage {
+  .dailyListing {
     position: relative;
     margin: 36px 0 0 0;
     padding: 12px 8px;
@@ -26,7 +26,7 @@
     }
   }
 
-  li.eventListing {
+  li.listing {
     display: inline-block;
     padding: 1px 4px;
     font-family: var(--sourceSerif4), serif;

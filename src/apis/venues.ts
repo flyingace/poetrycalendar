@@ -1,6 +1,6 @@
 'use server';
 
-import prisma from './events';
+import prisma from './listings';
 
 export async function getAllVenues() {
   return await prisma.venues.findMany({

@@ -1,17 +1,14 @@
 import { PrismaClient } from '@prisma/client';
 import { DateTime } from 'luxon';
 import { getVenueNameById } from '@/apis/venues';
-import {
-  EventListingData,
-  EventListingsByDate,
-} from '@/app/(content)/eventListings/page';
+import { ListingData, ListingsByDate } from '@/app/(content)/listings/page';
 
 const prisma = new PrismaClient();
 
 export default prisma;
 
-export async function getEvents() {
-  const events = await prisma.events.findMany({
+export async function getListings() {
+  const listings = await prisma.listings.findMany({
     select: {
       title: true,
       start_time: true,
@@ -20,26 +17,29 @@ export async function getEvents() {
     },
   });
 
-  // Get venue names for each event
+  // Get venue names for each listing
   return await Promise.all(
-    events.map(async (event) => {
-      const venue = await getVenueNameById(event.venue);
+    listings.map(async (listing) => {
+      const venue = await getVenueNameById(listing.venue);
 
       return {
-        ...event,
+        ...listing,
         venue: venue?.name || null,
       };
     })
   );
 }
 
-export async function getEventsByDateRange(startDate: string, endDate: string) {
+export async function getListingsByDateRange(
+  startDate: string,
+  endDate: string
+) {
   // Parse the date strings and create proper date boundaries
-  // Use the local timezone to match how events are stored
+  // Use the local timezone to match how listings are stored
   const startDateTime = DateTime.fromISO(startDate).startOf('day').toJSDate();
   const endDateTime = DateTime.fromISO(endDate).endOf('day').toJSDate();
 
-  const events = await prisma.events.findMany({
+  const listings = await prisma.listings.findMany({
     where: {
       start_time: {
         gte: startDateTime,
@@ -58,21 +58,21 @@ export async function getEventsByDateRange(startDate: string, endDate: string) {
     },
   });
 
-  // Get venue names for each event
-  const eventsWithVenueNames = await Promise.all(
-    events.map(async (eventListing) => {
-      const venue = await getVenueNameById(eventListing.venue);
+  // Get venue names for each listing
+  const listingsWithVenueNames = await Promise.all(
+    listings.map(async (listing) => {
+      const venue = await getVenueNameById(listing.venue);
 
       return {
-        ...eventListing,
-        cost: eventListing.cost?.toString() ?? '0',
-        start_time: eventListing.start_time,
+        ...listing,
+        cost: listing.cost?.toString() ?? '0',
+        start_time: listing.start_time,
         venue: venue?.name || null,
       };
     })
   );
 
-  return sortEventsByDate(eventsWithVenueNames);
+  return sortListingsByDate(listingsWithVenueNames);
 }
 
 export async function getDailyCalendar() {
@@ -80,7 +80,7 @@ export async function getDailyCalendar() {
   const startTime = today.minus({ days: 2 });
   const endTime = today.plus({ days: 14 });
 
-  return await getEventsByDateRange(startTime.toISO(), endTime.toISO())
+  return await getListingsByDateRange(startTime.toISO(), endTime.toISO())
     .then(async (resp) => {
       await prisma.$disconnect();
       return JSON.parse(JSON.stringify(resp));
@@ -92,20 +92,20 @@ export async function getDailyCalendar() {
     });
 }
 
-function sortEventsByDate(eventListings: EventListingData[]) {
-  const eventsSortedByDate: EventListingsByDate[] = [];
-  eventListings.forEach((eventListing) => {
-    const dateMatch = eventsSortedByDate.find(
-      (sortedEvent) => eventListing.start_time.toString() === sortedEvent.date
+function sortListingsByDate(listings: ListingData[]) {
+  const listingsSortedByDate: ListingsByDate[] = [];
+  listings.forEach((listing) => {
+    const dateMatch = listingsSortedByDate.find(
+      (sortedListing) => listing.start_time.toString() === sortedListing.date
     );
     if (dateMatch) {
-      dateMatch.eventsData.push(eventListing);
+      dateMatch.listingsData.push(listing);
     } else {
-      eventsSortedByDate.push({
-        date: eventListing.start_time.toString(),
-        eventsData: [eventListing],
+      listingsSortedByDate.push({
+        date: listing.start_time.toString(),
+        listingsData: [listing],
       });
     }
   });
-  return eventsSortedByDate;
+  return listingsSortedByDate;
 }
