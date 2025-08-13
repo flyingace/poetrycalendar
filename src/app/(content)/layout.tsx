@@ -6,6 +6,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <div className={styles.layout}>
       <Header />
       {children}
+      <div className={styles.boxes}>
+        <span className={styles.orangeBox}></span>
+        <span className={styles.blueBox}></span>
+        <span className={styles.violetBox}></span>
+      </div>
     </div>
   );
 }
