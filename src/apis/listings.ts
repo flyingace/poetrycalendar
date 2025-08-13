@@ -1,11 +1,9 @@
-import { PrismaClient } from '@prisma/client';
+'use server';
+
+import prisma from './prisma';
 import { DateTime } from 'luxon';
 import { getVenueNameById } from '@/apis/venues';
 import { ListingData, ListingsByDate } from '@/app/(content)/listings/page';
-
-const prisma = new PrismaClient();
-
-export default prisma;
 
 export async function getListings() {
   const listings = await prisma.listings.findMany({
@@ -92,7 +90,31 @@ export async function getDailyCalendar() {
     });
 }
 
-function sortListingsByDate(listings: ListingData[]) {
+export async function createListing(listingData: {
+  title: string;
+  start_time: Date;
+  end_time?: Date;
+  venue: number;
+  cost: number;
+  description?: string;
+  created_by: number;
+  type: string;
+}) {
+  await prisma.listings.create({
+    data: {
+      title: listingData.title,
+      start_time: listingData.start_time,
+      end_time: listingData.end_time || null,
+      venue: listingData.venue,
+      cost: listingData.cost,
+      description: listingData.description || null,
+      created_by: listingData.created_by,
+      type: listingData.type,
+    },
+  });
+}
+
+export async function sortListingsByDate(listings: ListingData[]) {
   const listingsSortedByDate: ListingsByDate[] = [];
   listings.forEach((listing) => {
     const dateMatch = listingsSortedByDate.find(

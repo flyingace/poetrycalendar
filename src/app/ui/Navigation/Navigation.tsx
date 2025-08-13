@@ -20,8 +20,8 @@ export default function Navigation() {
     <nav>
       <ul className={styles.navItems}>
         <li>
-          <Link className={styles.navItem} id="events" href="/eventListings">
-            <CalendarDotsIcon size={24} weight="light" /> Events
+          <Link className={styles.navItem} id="listings" href="/listings">
+            <CalendarDotsIcon size={24} weight="light" /> Listings
           </Link>
         </li>
         <li>
