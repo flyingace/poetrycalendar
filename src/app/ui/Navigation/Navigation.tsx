@@ -7,11 +7,16 @@ import {
   PlusSquareIcon,
   StorefrontIcon,
   SunIcon,
-  UserCircleIcon,
 } from '@phosphor-icons/react';
 import Link from 'next/link';
+import { AccountMenu } from '@/app/ui/Navigation/AccountMenu';
+import { SessionData } from '@auth0/nextjs-auth0/types';
 
-export default function Navigation() {
+export default function Navigation({
+  session,
+}: {
+  session: SessionData | null;
+}) {
   function handleClick(evt: MouseEvent<HTMLButtonElement>) {
     console.log(`${evt.currentTarget.id} was clicked`);
   }
@@ -24,20 +29,22 @@ export default function Navigation() {
             <CalendarDotsIcon size={24} weight="light" /> Listings
           </Link>
         </li>
+        {session ? (
+          <>
+            <li>
+              <Link className={styles.navItem} id="create" href="/create">
+                <PlusSquareIcon size={24} weight="light" /> Create
+              </Link>
+            </li>
+            <li>
+              <Link className={styles.navItem} id="venues" href="/venues">
+                <StorefrontIcon size={24} weight="light" /> Venues
+              </Link>
+            </li>
+          </>
+        ) : null}
         <li>
-          <Link className={styles.navItem} id="create" href="/create">
-            <PlusSquareIcon size={24} weight="light" /> Create
-          </Link>
-        </li>
-        <li>
-          <Link className={styles.navItem} id="venues" href="/venues">
-            <StorefrontIcon size={24} weight="light" /> Venues
-          </Link>
-        </li>
-        <li>
-          <Link className={styles.navItem} id="account" href="/account">
-            <UserCircleIcon size={24} weight="light" /> Account
-          </Link>
+          <AccountMenu session={session} />
         </li>
         <li>
           <button id="mode" onClick={handleClick}>
