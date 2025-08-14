@@ -1,4 +1,4 @@
-@use "../../styles/breakpoints";
+@use '../../styles/breakpoints';
 
 .navItems {
   display: flex;
@@ -6,9 +6,11 @@
   gap: 8px;
 
   li {
+    position: relative;
     list-style: none;
 
-    .navItem, button {
+    .navItem,
+    button {
       display: flex;
       flex-direction: row;
       align-items: center;
@@ -28,6 +30,37 @@
       &.selected {
         background-color: #f2f2f2;
       }
+    }
+  }
+
+  li:hover > .navItem + .accountMenu {
+    display: block;
+  }
+}
+
+.accountMenu {
+  display: none;
+  position: absolute;
+  top: 32px;
+  right: 0;
+  width: auto;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+
+  .subNavItem {
+    display: block;
+    height: 32px;
+    padding: 0 10px;
+    font-family: var(--lexend), serif;
+    font-size: 18px;
+    line-height: 32px;
+    white-space: nowrap;
+
+    &:hover {
+      background-color: #f2f2f2;
     }
   }
 }
