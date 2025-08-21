@@ -24,23 +24,6 @@ model listings {
   @@index([created_by], map: "createdBy")
 }
 
-model user_accounts {
-  id         Int      @id @default(autoincrement())
-  username   String   @unique(map: "username") @db.VarChar(50)
-  password   String   @db.Char(64)
-  email      String   @unique(map: "email") @db.VarChar(255)
-  created_at DateTime @default(now()) @db.Timestamp(0)
-  updated_at DateTime @default(now()) @db.Timestamp(0)
-}
-
-model venue_users {
-  venue_id Int
-  user_id  Int
-
-  @@id([venue_id, user_id])
-  @@index([user_id], map: "user_id")
-}
-
 model venues {
   id              Int     @id @default(autoincrement())
   name            String  @db.VarChar(255)
@@ -49,4 +32,28 @@ model venues {
   city            String  @db.VarChar(100)
   state           String  @db.VarChar(50)
   postal_code     String  @db.VarChar(20)
+}
+
+model accounts {
+  id            Int      @id @default(autoincrement())
+  name          String   @db.VarChar(255)
+  email         String   @unique(map: "email") @db.VarChar(255)
+  created_at    DateTime @default(now()) @db.Timestamp(0)
+  updated_at    DateTime @default(now()) @db.Timestamp(0)
+  venues        String?  @db.LongText
+  organizations String?  @db.LongText
+}
+
+model organizations {
+  id           Int      @id @default(autoincrement())
+  name         String   @db.VarChar(255)
+  address1     String?  @db.VarChar(255)
+  address2     String?  @db.VarChar(255)
+  city         String?  @db.VarChar(100)
+  state        String?  @db.VarChar(50)
+  postalCode   String?  @db.VarChar(20)
+  accountAdmin Int?
+  phoneNumber  String?  @db.VarChar(20)
+  created_at   DateTime @default(now()) @db.Timestamp(0)
+  updated_at   DateTime @default(now()) @db.Timestamp(0)
 }

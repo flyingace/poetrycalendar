@@ -59,7 +59,9 @@ export default function CreatePage() {
   }, []);
 
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -93,8 +95,8 @@ export default function CreatePage() {
     try {
       // Combine date and time for start_time
       const startDateTime = new Date(`${formData.date}T${formData.start_time}`);
-      let endDateTime = null;
-      
+      let endDateTime;
+
       if (formData.end_time.trim()) {
         endDateTime = new Date(`${formData.date}T${formData.end_time}`);
       }
@@ -280,11 +282,7 @@ export default function CreatePage() {
             />
           </div>
 
-          <input
-            type="hidden"
-            name="created_by"
-            value={formData.created_by}
-          />
+          <input type="hidden" name="created_by" value={formData.created_by} />
 
           <button
             type="submit"
